@@ -1,4 +1,4 @@
-import { Project } from '../data/projects'
+import type { Project } from '../data/projects'
 import { TechBadge } from './TechBadge'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
@@ -17,8 +17,8 @@ export function ProjectCard({ project, index }: Props) {
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(24px)',
         transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
-        background: '#fff',
-        border: '1px solid #e5e7eb',
+        background: 'var(--surface)',
+        border: '1px solid var(--surface-border)',
         borderRadius: '12px',
         padding: '28px',
         display: 'flex',
@@ -27,15 +27,15 @@ export function ProjectCard({ project, index }: Props) {
       }}
     >
       <div>
-        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: '#111827' }}>
+        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
           {project.title}
         </h3>
-        <p style={{ margin: '8px 0 0', fontSize: '14px', color: '#6b7280', lineHeight: 1.6 }}>
+        <p style={{ margin: '8px 0 0', fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
           {project.description}
         </p>
       </div>
 
-      <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '13px', color: '#374151', lineHeight: 1.8 }}>
+      <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
         {project.highlights.map((h) => <li key={h}>{h}</li>)}
       </ul>
 
@@ -46,13 +46,13 @@ export function ProjectCard({ project, index }: Props) {
       <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noreferrer"
-            style={{ fontSize: '13px', color: '#2563eb', textDecoration: 'none', fontWeight: 500 }}>
+            style={{ fontSize: '13px', color: 'var(--link)', textDecoration: 'none', fontWeight: 500 }}>
             Live Demo ↗
           </a>
         )}
         {project.githubUrl && (
           <a href={project.githubUrl} target="_blank" rel="noreferrer"
-            style={{ fontSize: '13px', color: '#6b7280', textDecoration: 'none' }}>
+            style={{ fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'none' }}>
             GitHub ↗
           </a>
         )}

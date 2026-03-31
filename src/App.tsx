@@ -1,14 +1,23 @@
+import { useState, useEffect } from 'react'
 import { Hero } from './components/Hero'
 import { ProjectCard } from './components/ProjectCard'
 import { Footer } from './components/Footer'
+import { Header } from './components/Header'
 import { projects } from './data/projects'
 
 function App() {
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', isDark)
+  }, [isDark])
+
   return (
-    <main style={{ background: '#f9fafb', minHeight: '100vh' }}>
+    <main style={{ background: 'transparent', minHeight: '100vh' }}>
+      <Header isDark={isDark} onToggle={() => setIsDark(prev => !prev)} />
       <Hero />
       <section style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 24px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 600, color: '#111827', marginBottom: '40px' }}>
+        <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
           Projects
         </h2>
         <div style={{
