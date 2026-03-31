@@ -3,26 +3,34 @@ import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { AboutPage } from './AboutPage'
 
+function renderAbout() {
+  return render(
+    <MemoryRouter>
+      <AboutPage />
+    </MemoryRouter>
+  )
+}
+
 describe('AboutPage', () => {
-  it('renders title and bio', () => {
-    render(
-      <MemoryRouter>
-        <AboutPage />
-      </MemoryRouter>
-    )
-    expect(screen.getAllByRole('heading', { level: 1, name: /^About$/ })[0]).toBeInTheDocument()
-    expect(screen.getByText(/Allen/)).toBeInTheDocument()
-    expect(screen.getByText(/專注在 Vue/)).toBeInTheDocument()
+  it('renders intro and narrative', () => {
+    renderAbout()
+    expect(screen.getByRole('heading', { level: 1, name: /嗨，我是 Allen/ })).toBeInTheDocument()
+    expect(screen.getByText(/Vue/)).toBeInTheDocument()
+    expect(screen.getByText(/React/)).toBeInTheDocument()
+    expect(screen.getByText(/LeetCode/)).toBeInTheDocument()
+  })
+
+  it('renders outbound links', () => {
+    renderAbout()
+    expect(screen.getByRole('link', { name: /GitHub/ })).toHaveAttribute('href', 'https://github.com/AllenLi0110')
+    expect(screen.getByRole('link', { name: /Blog/ })).toHaveAttribute('href', 'https://www.allenliservice.site')
+    expect(screen.getByRole('link', { name: /Email/ })).toHaveAttribute('href', 'mailto:allen.li.service@gmail.com')
   })
 
   it('links back to home', () => {
-    render(
-      <MemoryRouter>
-        <AboutPage />
-      </MemoryRouter>
-    )
-    const heading = screen.getAllByRole('heading', { level: 1, name: /^About$/ })[0]
-    const section = heading.closest('section')!
+    renderAbout()
+    const h1 = screen.getByRole('heading', { level: 1 })
+    const section = h1.closest('section')!
     const home = within(section).getByRole('link', { name: /^Home$/ })
     expect(home).toHaveAttribute('href', '/')
   })

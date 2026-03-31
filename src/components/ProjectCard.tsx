@@ -7,13 +7,15 @@ export type { ProjectCardProps }
 export function ProjectCard<T extends Project>({ project, index }: ProjectCardProps<T>) {
   const { ref, visible } = useScrollReveal()
 
+  const delay = `${index * 0.1}s`
   return (
     <div
       ref={ref}
+      className="project-card"
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
+        transition: `opacity 0.5s ease ${delay}, transform 0.5s ease ${delay}, box-shadow 0.22s ease, border-color 0.22s ease`,
         background: 'var(--surface)',
         border: '1px solid var(--surface-border)',
         borderRadius: '12px',
@@ -46,19 +48,41 @@ export function ProjectCard<T extends Project>({ project, index }: ProjectCardPr
       </div>
 
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto' }}>
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noreferrer"
-            style={{ fontSize: '13px', color: 'var(--link)', textDecoration: 'none', fontWeight: 500 }}>
+        {project.links?.map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            className="project-card-link"
+            style={{ fontSize: '13px', color: 'var(--link)', fontWeight: 500 }}
+          >
+            {link.label} ↗
+          </a>
+        ))}
+        {!project.links?.length && project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="project-card-link"
+            style={{ fontSize: '13px', color: 'var(--link)', fontWeight: 500 }}
+          >
             Live Demo ↗
           </a>
         )}
         {project.githubUrl && (
-          <a href={project.githubUrl} target="_blank" rel="noreferrer"
-            style={{ fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'none' }}>
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="project-card-link project-card-link--muted"
+            style={{ fontSize: '13px', fontWeight: 500 }}
+          >
             GitHub ↗
           </a>
         )}
-        {!project.liveUrl && !project.githubUrl && (
+        {!project.links?.length && !project.liveUrl && !project.githubUrl && (
           <span style={{ fontSize: '13px', color: 'var(--text-faint)' }}>No public links</span>
         )}
       </div>

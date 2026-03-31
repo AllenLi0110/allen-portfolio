@@ -22,7 +22,10 @@ describe('HomePage', () => {
     const panel = projectsPanel()
     expect(within(panel).getByRole('heading', { name: 'Infodeck IoT Platform' })).toBeInTheDocument()
     expect(within(panel).getByRole('heading', { name: 'Buildmoat Course Bot' })).toBeInTheDocument()
+    expect(within(panel).getByRole('heading', { name: 'Buildmoat 程式實戰營助教' })).toBeInTheDocument()
     expect(within(panel).getByRole('heading', { name: 'AmieRoad' })).toBeInTheDocument()
+    expect(within(panel).getByRole('heading', { name: 'AlphaLab（阿爾發實驗室）' })).toBeInTheDocument()
+    expect(within(panel).getByRole('heading', { name: '個人作品集（本網站）' })).toBeInTheDocument()
   })
 
   it('filters projects when a tech chip is selected', async () => {
@@ -33,6 +36,7 @@ describe('HomePage', () => {
     await user.click(within(toolbar).getByRole('button', { name: 'WordPress' }))
     expect(within(panel).queryByRole('heading', { name: 'Infodeck IoT Platform' })).not.toBeInTheDocument()
     expect(within(panel).getByRole('heading', { name: 'AmieRoad' })).toBeInTheDocument()
+    expect(within(panel).getByRole('heading', { name: 'AlphaLab（阿爾發實驗室）' })).toBeInTheDocument()
     await user.click(within(toolbar).getByRole('button', { name: 'All' }))
     expect(within(panel).getByRole('heading', { name: 'Infodeck IoT Platform' })).toBeInTheDocument()
   })

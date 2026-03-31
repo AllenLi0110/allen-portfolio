@@ -31,6 +31,9 @@ describe('Hero', () => {
       'href',
       'https://www.linkedin.com/in/allen-li-service'
     )
+    const blog = within(section).getByRole('link', { name: /Blog/ })
+    expect(blog).toHaveAttribute('href', 'https://www.allenliservice.site')
+    expect(blog).toHaveAttribute('target', '_blank')
     expect(within(section).getByRole('link', { name: /Email/ })).toHaveAttribute(
       'href',
       'mailto:allen.li.service@gmail.com'

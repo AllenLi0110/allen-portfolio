@@ -3,8 +3,40 @@ import { Hero } from '../components/Hero'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectTechFilter } from '../components/ProjectTechFilter'
 import { projects } from '../data/projects'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export type { HomePageProps } from '../types'
+
+function ProjectsIntro({
+  techOptions,
+  selectedTech,
+  onSelectTech,
+}: {
+  techOptions: string[]
+  selectedTech: string | null
+  onSelectTech: (tech: string | null) => void
+}) {
+  const { ref, visible } = useScrollReveal()
+  return (
+    <div
+      ref={ref}
+      className="projects-intro-reveal"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(16px)',
+      }}
+    >
+      <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
+        Projects
+      </h2>
+      <ProjectTechFilter
+        options={techOptions}
+        selected={selectedTech}
+        onSelect={onSelectTech}
+      />
+    </div>
+  )
+}
 
 export function HomePage() {
   const [selectedTech, setSelectedTech] = useState<string | null>(null)
@@ -29,20 +61,13 @@ export function HomePage() {
   return (
     <>
       <Hero />
-      <section style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 24px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
-          Projects
-        </h2>
-        <ProjectTechFilter
-          options={techOptions}
-          selected={selectedTech}
-          onSelect={handleSelectTech}
+      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 24px' }}>
+        <ProjectsIntro
+          techOptions={techOptions}
+          selectedTech={selectedTech}
+          onSelectTech={handleSelectTech}
         />
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '24px',
-        }}>
+        <div className="projects-grid">
           {filteredProjects.map((p, i) => (
             <ProjectCard key={p.title} project={p} index={i} />
           ))}

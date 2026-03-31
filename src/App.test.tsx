@@ -27,7 +27,7 @@ describe('App routing', () => {
     const aboutLinks = screen.getAllByRole('link', { name: /^About$/ })
     await user.click(aboutLinks[0])
     await waitFor(() => {
-      expect(screen.getByRole('heading', { level: 1, name: /^About$/ })).toBeInTheDocument()
+      expect(screen.getByRole('heading', { level: 1, name: /嗨，我是 Allen/ })).toBeInTheDocument()
     })
   })
 

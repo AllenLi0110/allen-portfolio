@@ -38,4 +38,24 @@ describe('ProjectCard', () => {
       expect(screen.getByText('No public links')).toBeInTheDocument()
     })
   })
+
+  it('renders multiple labeled links when links is set', async () => {
+    const multi: Project = {
+      title: 'SaaS',
+      description: 'Desc',
+      techStack: ['Vue'],
+      highlights: ['A'],
+      links: [
+        { label: '官方網站', href: 'https://example.com/' },
+        { label: 'App', href: 'https://app.example.com/' },
+      ],
+    }
+    render(<ProjectCard project={multi} index={0} />)
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'SaaS' })).toBeVisible()
+    })
+    expect(screen.queryByRole('link', { name: /Live Demo/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /官方網站/ })).toHaveAttribute('href', 'https://example.com/')
+    expect(screen.getByRole('link', { name: /App/ })).toHaveAttribute('href', 'https://app.example.com/')
+  })
 })

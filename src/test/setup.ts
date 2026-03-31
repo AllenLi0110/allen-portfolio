@@ -1,11 +1,23 @@
 import '@testing-library/jest-dom/vitest'
 import { cleanup, configure } from '@testing-library/react'
-import { afterEach, beforeEach } from 'vitest'
+import { afterEach, beforeEach, vi } from 'vitest'
 
 configure({ reactStrictMode: false })
 
 beforeEach(() => {
   cleanup()
+  vi.stubGlobal(
+    'matchMedia',
+    (query: string) => ({
+      matches: String(query).includes('prefers-reduced-motion') && String(query).includes('reduce'),
+      media: query,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })
+  )
 })
 
 afterEach(() => {
