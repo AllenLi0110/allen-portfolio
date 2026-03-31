@@ -20,6 +20,15 @@ jobs:
           node-version: '22'
           cache: npm
 
+      - name: Check package-lock.json
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "::error::package-lock.json is missing. Run npm install locally, commit package-lock.json, and push."
+            exit 1
+          fi
+
+      - run: node -v && npm -v
+
       - run: npm ci
 
       - run: npm run lint
