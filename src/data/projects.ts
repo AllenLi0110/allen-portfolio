@@ -1,14 +1,8 @@
-export interface Project {
-  title: string
-  description: string
-  techStack: string[]
-  liveUrl?: string
-  githubUrl?: string
-  highlights: string[]
-  category?: string
-}
+import type { Project } from '../types/project'
 
-export const projects: Project[] = [
+export type { Project } from '../types/project'
+
+export const projects = [
   {
     title: 'Infodeck IoT Platform',
     category: 'IoT · SaaS',
@@ -48,4 +42,4 @@ export const projects: Project[] = [
       '服務 250+ 名付費學生',
     ],
   },
-]
+] satisfies readonly Project[]

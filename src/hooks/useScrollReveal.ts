@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import type { ScrollRevealResult } from '../types'
 
-export function useScrollReveal() {
+export function useScrollReveal(): ScrollRevealResult {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 

@@ -1,8 +1,8 @@
-interface Props {
-  label: string
-}
+import type { TechBadgeProps } from '../types'
 
-export function TechBadge({ label }: Props) {
+export type { TechBadgeProps }
+
+export function TechBadge({ label }: TechBadgeProps) {
   return (
     <span style={{
       fontSize: '12px',

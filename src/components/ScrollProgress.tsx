@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+export type { ScrollProgressProps } from '../types'
+
 export function ScrollProgress() {
   const [progress, setProgress] = useState(0)
 

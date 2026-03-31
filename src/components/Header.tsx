@@ -1,5 +1,7 @@
 import { useTheme } from '../context/ThemeContext'
 
+export type { HeaderProps } from '../types'
+
 export function Header() {
   const { isDark, toggle } = useTheme()
 

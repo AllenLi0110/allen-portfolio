@@ -4,7 +4,6 @@ import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { projects } from './data/projects'
 import { ScrollProgress } from './components/ScrollProgress'
-
 function App() {
   return (
     <main style={{ background: 'transparent', minHeight: '100vh' }}>

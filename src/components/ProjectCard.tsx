@@ -1,13 +1,10 @@
-import type { Project } from '../data/projects'
+import type { Project, ProjectCardProps } from '../types'
 import { TechBadge } from './TechBadge'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-interface Props {
-  project: Project
-  index: number
-}
+export type { ProjectCardProps }
 
-export function ProjectCard({ project, index }: Props) {
+export function ProjectCard<T extends Project>({ project, index }: ProjectCardProps<T>) {
   const { ref, visible } = useScrollReveal()
 
   return (

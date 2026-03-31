@@ -1,3 +1,7 @@
+import type { HeroLinkStyle } from '../types'
+
+export type { HeroProps } from '../types'
+
 export function Hero() {
   return (
     <section style={{
@@ -31,6 +35,6 @@ export function Hero() {
   )
 }
 
-function linkStyle(color: string): React.CSSProperties {
+function linkStyle(color: string): HeroLinkStyle {
   return { fontSize: '15px', color, textDecoration: 'none', fontWeight: 500 }
 }

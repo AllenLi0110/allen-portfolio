@@ -1,14 +1,12 @@
-import { createContext, useContext, useMemo, type ReactNode } from 'react'
+import { createContext, useContext, useMemo } from 'react'
 import { useDarkMode } from '../hooks/useDarkMode'
+import type { ThemeContextValue, ThemeProviderProps } from '../types/theme'
 
-export interface ThemeContextValue {
-  isDark: boolean
-  toggle: () => void
-}
+export type { ThemeContextValue, ThemeProviderProps }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: ThemeProviderProps) {
   const { isDark, toggle } = useDarkMode()
   const value = useMemo(() => ({ isDark, toggle }), [isDark, toggle])
 
