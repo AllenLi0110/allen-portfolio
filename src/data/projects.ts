@@ -5,11 +5,13 @@ export interface Project {
   liveUrl?: string
   githubUrl?: string
   highlights: string[]
+  category?: string
 }
 
 export const projects: Project[] = [
   {
     title: 'Infodeck IoT Platform',
+    category: 'IoT · SaaS',
     description:
       '企業級 IoT 設備管理 SaaS 平台，支援 500+ 台設備即時監控，整合 LoRaWAN 網路伺服器與資產工單管理。',
     techStack: ['Vue 3', 'TypeScript', 'Node.js', 'AWS IoT', 'DynamoDB', 'gRPC'],
@@ -22,6 +24,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Buildmoat Course Bot',
+    category: 'Discord · AI',
     description:
       'Discord AI 課程助理機器人，整合 RAG 與意圖分類自動回應系統設計課程問題，服務 ~300 名學生。',
     techStack: ['TypeScript', 'LangChain', 'Groq', 'RAG', 'Discord.js'],
@@ -34,6 +37,7 @@ export const projects: Project[] = [
   },
   {
     title: 'AmieRoad',
+    category: 'EdTech · WordPress',
     description:
       '英文教育網站，整合會員訂閱、角色權限與購物折扣機制，支援線上內容與付費功能，服務約 250 名學生。',
     techStack: ['WordPress', 'PHP', 'WooCommerce', 'Ultimate Member'],

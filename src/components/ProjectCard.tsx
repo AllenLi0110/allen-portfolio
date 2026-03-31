@@ -30,7 +30,12 @@ export function ProjectCard({ project, index }: Props) {
         <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600, color: 'var(--text-primary)' }}>
           {project.title}
         </h3>
-        <p style={{ margin: '8px 0 0', fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+        {project.category && (
+          <p style={{ margin: '6px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>
+            {project.category}
+          </p>
+        )}
+        <p style={{ margin: project.category ? '6px 0 0' : '8px 0 0', fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.6 }}>
           {project.description}
         </p>
       </div>
@@ -43,7 +48,7 @@ export function ProjectCard({ project, index }: Props) {
         {project.techStack.map((t) => <TechBadge key={t} label={t} />)}
       </div>
 
-      <div style={{ display: 'flex', gap: '12px', marginTop: 'auto' }}>
+      <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto' }}>
         {project.liveUrl && (
           <a href={project.liveUrl} target="_blank" rel="noreferrer"
             style={{ fontSize: '13px', color: 'var(--link)', textDecoration: 'none', fontWeight: 500 }}>
@@ -55,6 +60,9 @@ export function ProjectCard({ project, index }: Props) {
             style={{ fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'none' }}>
             GitHub ↗
           </a>
+        )}
+        {!project.liveUrl && !project.githubUrl && (
+          <span style={{ fontSize: '13px', color: 'var(--text-faint)' }}>No public links</span>
         )}
       </div>
     </div>

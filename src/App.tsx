@@ -15,7 +15,7 @@ function App() {
 
   return (
     <main style={{ background: 'transparent', minHeight: '100vh' }}>
-       <ScrollProgress /> 
+      <ScrollProgress />
       <Header isDark={isDark} onToggle={() => setIsDark(prev => !prev)} />
       <Hero />
       <section style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 24px' }}>
