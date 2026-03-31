@@ -1,7 +1,8 @@
 import { lazy, Suspense } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 
@@ -37,7 +38,7 @@ export default function App() {
             </Suspense>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   )

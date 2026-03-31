@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import { ErrorBoundary } from './ErrorBoundary'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { ScrollProgress } from './ScrollProgress'
@@ -11,7 +12,9 @@ export function Layout() {
       <ScrollProgress />
       <Header />
       <main style={{ background: 'transparent', minHeight: '100vh' }}>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <Footer />
     </>

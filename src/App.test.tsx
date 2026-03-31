@@ -31,10 +31,11 @@ describe('App routing', () => {
     })
   })
 
-  it('redirects unknown paths to home', async () => {
+  it('shows 404 for unknown paths', async () => {
     renderApp('/this-route-does-not-exist')
     await waitFor(() => {
-      expect(screen.getAllByRole('heading', { name: /Allen Li/i }).length).toBeGreaterThan(0)
+      expect(screen.getByRole('heading', { name: /Page not found/i })).toBeInTheDocument()
     })
+    expect(screen.getByRole('link', { name: /Back to home/i })).toHaveAttribute('href', '/')
   })
 })
