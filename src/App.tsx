@@ -4,6 +4,7 @@ import { ProjectCard } from './components/ProjectCard'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { projects } from './data/projects'
+import { ScrollProgress } from './components/ScrollProgress'
 
 function App() {
   const [isDark, setIsDark] = useState(false)
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <main style={{ background: 'transparent', minHeight: '100vh' }}>
+       <ScrollProgress /> 
       <Header isDark={isDark} onToggle={() => setIsDark(prev => !prev)} />
       <Hero />
       <section style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 24px' }}>
