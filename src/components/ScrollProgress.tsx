@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { getScrollProgressPercent } from '../utils/scrollProgressPercent'
 
 export type { ScrollProgressProps } from '../types'
 
@@ -7,10 +8,13 @@ export function ScrollProgress() {
 
   useEffect(() => {
     function handleScroll() {
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0
-      setProgress(Math.round(pct))
+      setProgress(
+        getScrollProgressPercent(
+          window.scrollY,
+          document.documentElement.scrollHeight,
+          window.innerHeight
+        )
+      )
     }
 
     window.addEventListener('scroll', handleScroll)

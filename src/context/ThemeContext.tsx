@@ -17,6 +17,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- useTheme co-located with ThemeProvider
 export function useTheme(): ThemeContextValue {
   const ctx = useContext(ThemeContext)
   if (ctx === undefined) {
