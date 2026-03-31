@@ -14,7 +14,8 @@ function renderAbout() {
 describe('AboutPage', () => {
   it('renders intro and narrative', () => {
     renderAbout()
-    expect(screen.getByRole('heading', { level: 1, name: /嗨，我是 Allen/ })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: /^About$/ })).toBeInTheDocument()
+    expect(screen.getByText(/嗨，我是 Allen/)).toBeInTheDocument()
     expect(screen.getByText(/Vue/)).toBeInTheDocument()
     expect(screen.getByText(/React/)).toBeInTheDocument()
     expect(screen.getByText(/LeetCode/)).toBeInTheDocument()

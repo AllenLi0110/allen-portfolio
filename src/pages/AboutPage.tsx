@@ -10,7 +10,7 @@ export function AboutPage() {
         margin: '0 auto',
         padding: '120px 24px 80px',
       }}
-    >      
+    >
       <h1
         style={{
           margin: '0 0 28px',
