@@ -26,7 +26,7 @@ export const projects: readonly Project[] = [
     description:
       'Discord AI 課程助理機器人，整合 RAG 與意圖分類自動回應系統設計課程問題，服務 ~300 名學生。',
     techStack: ['TypeScript', 'LangChain', 'Groq', 'RAG', 'Discord.js'],
-    liveUrl: 'https://www.buildmoat.org',
+    liveUrl: 'https://discord.com/channels/1394349219363557406/1394371800460431370',
     highlights: [
       '整合 RAG 向量搜尋提升回答準確率',
       '意圖分類自動路由不同問題類型',
@@ -41,7 +41,7 @@ export const projects: readonly Project[] = [
     techStack: ['Mentoring', 'TypeScript', 'System Design'],
     liveUrl: 'https://www.buildmoat.org',
     highlights: [
-      '於約 500 人規模技術社群中帶領實戰練習與答疑',
+      '於約 500 人規模技術社群中帶領實戰練習與解惑',
       '以程式碼解析與問題拆解協助學員建立解題思路',
       '累積協助 100+ 名學員強化解題與實作能力',
     ],
