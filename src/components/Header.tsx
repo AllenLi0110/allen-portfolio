@@ -1,9 +1,8 @@
-interface Props {
-  isDark: boolean
-  onToggle: () => void
-}
+import { useTheme } from '../context/ThemeContext'
 
-export function Header({ isDark, onToggle }: Props) {
+export function Header() {
+  const { isDark, toggle } = useTheme()
+
   return (
     <header style={{
       position: 'fixed',
@@ -13,7 +12,7 @@ export function Header({ isDark, onToggle }: Props) {
       zIndex: 100,
     }}>
       <button
-        onClick={onToggle}
+        onClick={toggle}
         aria-label="Toggle dark mode"
         style={{
           background: 'none',

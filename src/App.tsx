@@ -4,15 +4,12 @@ import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { projects } from './data/projects'
 import { ScrollProgress } from './components/ScrollProgress'
-import { useDarkMode } from './hooks/useDarkMode'
 
 function App() {
-  const { isDark, toggle } = useDarkMode()
-
   return (
     <main style={{ background: 'transparent', minHeight: '100vh' }}>
       <ScrollProgress />
-      <Header isDark={isDark} onToggle={toggle} />
+      <Header />
       <Hero />
       <section style={{ maxWidth: '900px', margin: '0 auto', padding: '80px 24px' }}>
         <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
