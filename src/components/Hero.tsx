@@ -11,14 +11,6 @@ function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-function introLineStyle(visible: boolean): CSSProperties {
-  return {
-    opacity: visible ? 1 : 0,
-    transform: visible ? 'translateY(0)' : 'translateY(14px)',
-    transition: 'opacity 0.45s ease, transform 0.45s ease',
-  }
-}
-
 function useTypingEffect(text: string, startDelay: number, reducedMotion: boolean) {
   const [displayed, setDisplayed] = useState(reducedMotion ? text : '')
   const [isDone, setIsDone] = useState(reducedMotion)
@@ -50,9 +42,29 @@ function useTypingEffect(text: string, startDelay: number, reducedMotion: boolea
   return { displayed, isDone }
 }
 
+/** Returns a style that fades/slides in on intro, then applies parallax once visible */
+function elementStyle(
+  isVisible: boolean,
+  parallaxY: number,
+  factor: number,
+  hasScrolled: boolean,
+): CSSProperties {
+  return {
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible
+      ? `translateY(${parallaxY * factor}px)`
+      : 'translateY(14px)',
+    // Remove transition while actively parallaxing so motion is smooth;
+    // keep it for the initial fade-in and for snap-back when scroll returns to 0
+    transition: isVisible && hasScrolled ? 'none' : 'opacity 0.45s ease, transform 0.45s ease',
+    willChange: isVisible ? 'transform' : 'auto',
+  }
+}
+
 export function Hero() {
   const reduced = prefersReducedMotion()
   const [step, setStep] = useState(() => (reduced ? 3 : 0))
+  const [parallaxY, setParallaxY] = useState(0)
 
   useEffect(() => {
     if (reduced) return
@@ -66,9 +78,26 @@ export function Hero() {
     }
   }, [reduced])
 
-  // Typing starts after name fades in (step 2 at 130ms → start at ~220ms)
+  useEffect(() => {
+    if (reduced) return
+    let rafId: number
+    const onScroll = () => {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        // Cap at viewport height so elements don't fly off screen
+        setParallaxY(Math.min(window.scrollY, window.innerHeight * 0.8))
+      })
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
+    }
+  }, [reduced])
+
   const { displayed, isDone } = useTypingEffect(TYPED_TEXT, reduced ? 0 : 220, reduced)
   const showCursor = !reduced && !isDone
+  const hasScrolled = parallaxY > 0
 
   return (
     <section id="hero" style={{
@@ -79,13 +108,14 @@ export function Hero() {
       padding: '0 24px',
       maxWidth: '680px',
       margin: '0 auto',
+      overflow: 'hidden',
     }}>
       <p style={{
         margin: '0 0 12px',
         fontSize: '14px',
         color: 'var(--text-muted)',
         letterSpacing: '0.05em',
-        ...introLineStyle(step >= 1),
+        ...elementStyle(step >= 1, parallaxY, 0.22, hasScrolled),
       }}>
         Hi, I'm
       </p>
@@ -95,11 +125,11 @@ export function Hero() {
         fontSize: 'clamp(40px, 8vw, 64px)',
         fontWeight: 700,
         lineHeight: 1.1,
-        ...introLineStyle(step >= 2),
         background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 60%, #ec4899 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
         backgroundClip: 'text',
+        ...elementStyle(step >= 2, parallaxY, 0.15, hasScrolled),
       }}>
         Allen Li
       </h1>
@@ -110,9 +140,8 @@ export function Hero() {
         color: 'var(--text-secondary)',
         lineHeight: 1.7,
         maxWidth: '540px',
-        // Reserve height for the full text to prevent layout shift while typing
         minHeight: 'calc(18px * 1.7 * 4)',
-        ...introLineStyle(step >= 3),
+        ...elementStyle(step >= 3, parallaxY, 0.08, hasScrolled),
       }}>
         {displayed}
         {showCursor && (
@@ -124,9 +153,7 @@ export function Hero() {
         display: 'flex',
         gap: '16px',
         flexWrap: 'wrap',
-        opacity: isDone ? 1 : 0,
-        transform: isDone ? 'translateY(0)' : 'translateY(14px)',
-        transition: 'opacity 0.45s ease, transform 0.45s ease',
+        ...elementStyle(isDone, parallaxY, 0.04, hasScrolled),
       }}>
         <a
           href="https://github.com/AllenLi0110"
