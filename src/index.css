@@ -165,7 +165,7 @@ body.dark {
 }
 
 ::view-transition-new(root) {
-  animation: reveal-circle 0.45s ease-out;
+  animation: reveal-circle 1s ease-out;
 }
 
 ::view-transition-old(root) {
