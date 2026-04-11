@@ -13,6 +13,7 @@ describe('ExperienceSection', () => {
     expect(screen.getByText(/Infodeck/)).toBeInTheDocument()
     expect(screen.getByText(/Buildmoat/)).toBeInTheDocument()
     expect(screen.getByText(/ALPHA Camp/)).toBeInTheDocument()
+    expect(screen.getByText(/Unimicron/)).toBeInTheDocument()
   })
 
   it('renders role titles', () => {

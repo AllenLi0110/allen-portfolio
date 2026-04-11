@@ -42,4 +42,16 @@ export const experiences: readonly ExperienceItem[] = [
     ],
     techStack: ['HTML', 'CSS', 'JavaScript'],
   },
+  {
+    role: 'Senior Industrial & Production Engineer',
+    company: 'Unimicron Technology',
+    period: 'Sep 2019 – Nov 2021',
+    location: 'Xinfeng Township, Taiwan',
+    highlights: [
+      'Built VBA and RPA tools to automate production scheduling and capacity reporting, reducing manual analysis time',
+      'Managed production planning for high-end GPU orders, scaling monthly volume from $16M to $33M',
+      'Developed hands-on domain expertise in high-volume electronics manufacturing operations',
+    ],
+    techStack: ['VBA', 'Excel', 'APS', 'RPA'],
+  },
 ]
