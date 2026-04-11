@@ -37,7 +37,6 @@ export function Header() {
         top: 0,
         left: 0,
         right: 0,
-        padding: '16px 24px',
         zIndex: 100,
         display: 'flex',
         alignItems: 'center',
@@ -48,7 +47,8 @@ export function Header() {
     >
       <nav
         aria-label="Main"
-        style={{ display: 'flex', gap: '20px', pointerEvents: 'auto' }}
+        className="header-nav"
+        style={{ pointerEvents: 'auto' }}
       >
         {isHome ? (
           // On the home page: section-based anchor links with scroll-driven active state
@@ -103,9 +103,7 @@ export function Header() {
           background: 'none',
           border: '1px solid currentColor',
           borderRadius: '8px',
-          padding: '6px 14px',
           cursor: 'pointer',
-          fontSize: '14px',
           color: 'inherit',
           opacity: 0.6,
           pointerEvents: 'auto',
