@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { BackToTop } from './BackToTop'
 import { ErrorBoundary } from './ErrorBoundary'
 import { Footer } from './Footer'
@@ -9,13 +9,18 @@ import { SectionDots } from './SectionDots'
 export type { LayoutProps } from '../types'
 
 export function Layout() {
+  const { pathname } = useLocation()
+
   return (
     <>
       <ScrollProgress />
       <Header />
       <main style={{ background: 'transparent', minHeight: '100vh' }}>
         <ErrorBoundary>
-          <Outlet />
+          {/* key forces remount on route change, triggering the CSS entry animation */}
+          <div key={pathname} className="page-transition">
+            <Outlet />
+          </div>
         </ErrorBoundary>
       </main>
       <Footer />
