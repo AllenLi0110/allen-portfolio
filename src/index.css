@@ -218,6 +218,19 @@ body.dark .project-card:hover {
   color: var(--link);
 }
 
+/* --- focus rings (keyboard navigation) --- */
+
+.hero-cta-link:focus-visible,
+.header-nav-link:focus-visible,
+.project-card-link:focus-visible,
+.tech-filter-chip:focus-visible,
+.theme-toggle-btn:focus-visible,
+.back-to-top-btn:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-cta-link,
   .header-nav-link,
