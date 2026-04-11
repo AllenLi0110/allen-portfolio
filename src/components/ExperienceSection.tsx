@@ -72,9 +72,21 @@ function ExperienceCard({ item, index }: { item: ExperienceItem; index: number }
             lineHeight: 1.75,
           }}
         >
-          {item.highlights.map((h) => (
-            <li key={h}>{h}</li>
-          ))}
+          {item.highlights.map((h, liIndex) => {
+            const liDelay = index * 0.1 + 0.12 + liIndex * 0.07
+            return (
+              <li
+                key={h}
+                style={{
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? 'translateY(0)' : 'translateY(8px)',
+                  transition: `opacity 0.35s ease ${liDelay}s, transform 0.35s ease ${liDelay}s`,
+                }}
+              >
+                {h}
+              </li>
+            )
+          })}
         </ul>
         {item.techStack && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
