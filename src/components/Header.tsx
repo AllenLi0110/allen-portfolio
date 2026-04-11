@@ -87,7 +87,16 @@ export function Header() {
       </nav>
       <button
         type="button"
-        onClick={toggle}
+        onClick={(e) => {
+          const { clientX: x, clientY: y } = e
+          if (!document.startViewTransition) {
+            toggle()
+            return
+          }
+          document.documentElement.style.setProperty('--vt-x', `${x}px`)
+          document.documentElement.style.setProperty('--vt-y', `${y}px`)
+          document.startViewTransition(() => { toggle() })
+        }}
         aria-label="Toggle dark mode"
         className="theme-toggle-btn"
         style={{

@@ -101,6 +101,28 @@ body.dark {
   }
 }
 
+/* --- dark mode circle reveal (View Transitions API) --- */
+
+@keyframes reveal-circle {
+  from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+
+::view-transition-new(root) {
+  animation: reveal-circle 0.45s ease-out;
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-new(root),
+  ::view-transition-old(root) {
+    animation: none;
+  }
+}
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
