@@ -4,6 +4,7 @@ import { ErrorBoundary } from './ErrorBoundary'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { ScrollProgress } from './ScrollProgress'
+import { ScrollToTop } from './ScrollToTop'
 import { SectionDots } from './SectionDots'
 
 export type { LayoutProps } from '../types'
@@ -13,6 +14,7 @@ export function Layout() {
 
   return (
     <>
+      <ScrollToTop />
       <ScrollProgress />
       <Header />
       <main style={{ background: 'transparent', minHeight: '100vh' }}>
