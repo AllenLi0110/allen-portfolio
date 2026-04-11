@@ -1,4 +1,5 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useElementParallax } from '../hooks/useElementParallax'
 import { experiences } from '../data/experience'
 import type { ExperienceItem } from '../data/experience'
 
@@ -115,19 +116,22 @@ function ExperienceCard({ item, index }: { item: ExperienceItem; index: number }
 
 export function ExperienceSection() {
   const { ref, visible } = useScrollReveal()
+  const parallaxRef = useElementParallax(0.06)
 
   return (
     <section id="experience" style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
-      <div
-        ref={ref}
-        style={{
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'translateY(0)' : 'translateY(16px)',
-          transition: 'opacity 0.55s ease, transform 0.55s ease',
-          marginBottom: '40px',
-        }}
-      >
-        <h2 style={{ fontSize: '28px', fontWeight: 600, margin: 0 }}>Experience</h2>
+      <div ref={parallaxRef}>
+        <div
+          ref={ref}
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 0.55s ease, transform 0.55s ease',
+            marginBottom: '40px',
+          }}
+        >
+          <h2 style={{ fontSize: '28px', fontWeight: 600, margin: 0 }}>Experience</h2>
+        </div>
       </div>
       <div>
         {experiences.map((item, i) => (

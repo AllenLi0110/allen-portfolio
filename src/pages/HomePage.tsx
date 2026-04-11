@@ -5,6 +5,7 @@ import { ProjectCard } from '../components/ProjectCard'
 import { ProjectTechFilter } from '../components/ProjectTechFilter'
 import { projects } from '../data/projects'
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useElementParallax } from '../hooks/useElementParallax'
 
 export type { HomePageProps } from '../types'
 
@@ -18,23 +19,26 @@ function ProjectsIntro({
   onSelectTech: (tech: string | null) => void
 }) {
   const { ref, visible } = useScrollReveal()
+  const parallaxRef = useElementParallax(0.06)
   return (
-    <div
-      ref={ref}
-      className="projects-intro-reveal"
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(16px)',
-      }}
-    >
-      <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
-        Projects
-      </h2>
-      <ProjectTechFilter
-        options={techOptions}
-        selected={selectedTech}
-        onSelect={onSelectTech}
-      />
+    <div ref={parallaxRef}>
+      <div
+        ref={ref}
+        className="projects-intro-reveal"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(16px)',
+        }}
+      >
+        <h2 style={{ fontSize: '28px', fontWeight: 600, marginBottom: '40px' }}>
+          Projects
+        </h2>
+        <ProjectTechFilter
+          options={techOptions}
+          selected={selectedTech}
+          onSelect={onSelectTech}
+        />
+      </div>
     </div>
   )
 }
