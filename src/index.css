@@ -160,26 +160,12 @@ body.dark {
 /* --- dark mode circle reveal (View Transitions API) --- */
 
 @keyframes reveal-circle {
-  from {
-    mask-size: 0% 0%;
-    -webkit-mask-size: 0% 0%;
-  }
-  to {
-    mask-size: 350% 350%;
-    -webkit-mask-size: 350% 350%;
-  }
+  from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%)); }
 }
 
 ::view-transition-new(root) {
-  mask-image: radial-gradient(circle, black 42%, transparent 70%);
-  -webkit-mask-image: radial-gradient(circle, black 42%, transparent 70%);
-  mask-position: var(--vt-x, 100%) var(--vt-y, 0%);
-  -webkit-mask-position: var(--vt-x, 100%) var(--vt-y, 0%);
-  mask-size: 0% 0%;
-  -webkit-mask-size: 0% 0%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  animation: reveal-circle 1.5s ease-out forwards;
+  animation: reveal-circle 0.45s ease-out;
 }
 
 ::view-transition-old(root) {
