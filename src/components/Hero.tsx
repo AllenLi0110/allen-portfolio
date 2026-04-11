@@ -26,11 +26,7 @@ function useTypingEffect(text: string, startDelay: number, reducedMotion: boolea
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    if (reducedMotion) {
-      setDisplayed(text)
-      setIsDone(true)
-      return
-    }
+    if (reducedMotion) return
     let index = 0
     timeoutRef.current = setTimeout(() => {
       const tick = () => {
