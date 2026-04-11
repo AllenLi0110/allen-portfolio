@@ -81,7 +81,7 @@ body.dark {
 }
 
 .app-header--scrolled {
-  background-color: color-mix(in srgb, var(--surface) 82%, transparent);
+  background-color: color-mix(in srgb, var(--surface) 94%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--surface-border);
