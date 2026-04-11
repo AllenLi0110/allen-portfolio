@@ -11,7 +11,7 @@ describe('ExperienceSection', () => {
   it('renders all experience entries', () => {
     render(<ExperienceSection />)
     expect(screen.getByText(/Infodeck/)).toBeInTheDocument()
-    expect(screen.getByText(/Buildmoat/)).toBeInTheDocument()
+    expect(screen.getAllByText(/Buildmoat/)[0]).toBeInTheDocument()
     expect(screen.getByText(/ALPHA Camp/)).toBeInTheDocument()
     expect(screen.getByText(/Unimicron/)).toBeInTheDocument()
   })
