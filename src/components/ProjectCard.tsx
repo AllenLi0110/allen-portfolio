@@ -1,21 +1,51 @@
+import { useState } from 'react'
 import type { Project, ProjectCardProps } from '../types'
 import { TechBadge } from './TechBadge'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export type { ProjectCardProps }
 
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 export function ProjectCard<T extends Project>({ project, index }: ProjectCardProps<T>) {
   const { ref, visible } = useScrollReveal()
+  const [tilt, setTilt] = useState({ x: 0, y: 0, active: false })
+  const reduced = prefersReducedMotion()
 
   const delay = `${index * 0.1}s`
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced || !visible) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const nx = (e.clientX - rect.left) / rect.width - 0.5   // -0.5 … 0.5
+    const ny = (e.clientY - rect.top) / rect.height - 0.5
+    setTilt({ x: -ny * 7, y: nx * 7, active: true })
+  }
+
+  const handleMouseLeave = () => setTilt({ x: 0, y: 0, active: false })
+
+  const transform = !visible
+    ? 'translateY(24px)'
+    : tilt.active
+      ? `perspective(700px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
+      : 'translateY(0)'
+
+  const transition = tilt.active
+    ? 'opacity 0.5s ease, transform 0.08s ease, box-shadow 0.22s ease, border-color 0.22s ease'
+    : `opacity 0.5s ease ${delay}, transform ${tilt.x === 0 && tilt.y === 0 && visible ? '0.35s ease' : `0.5s ease ${delay}`}, box-shadow 0.22s ease, border-color 0.22s ease`
+
   return (
     <div
       ref={ref}
       className="project-card"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(24px)',
-        transition: `opacity 0.5s ease ${delay}, transform 0.5s ease ${delay}, box-shadow 0.22s ease, border-color 0.22s ease`,
+        transform,
+        transition,
         background: 'var(--surface)',
         border: '1px solid var(--surface-border)',
         borderRadius: '12px',
@@ -23,6 +53,7 @@ export function ProjectCard<T extends Project>({ project, index }: ProjectCardPr
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        willChange: 'transform',
       }}
     >
       <div>
