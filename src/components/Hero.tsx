@@ -3,8 +3,9 @@ import type { CSSProperties } from 'react'
 
 export type { HeroProps } from '../types'
 
-const TYPED_TEXT = 'Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products.'
-const TYPING_SPEED_MS = 28
+const TYPED_TEXT =
+  'Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products. Skilled in Vue 3, Node.js, TypeScript and AWS.'
+const TYPING_SPEED_MS = 30
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -20,12 +21,14 @@ function introLineStyle(visible: boolean): CSSProperties {
 
 function useTypingEffect(text: string, startDelay: number, reducedMotion: boolean) {
   const [displayed, setDisplayed] = useState(reducedMotion ? text : '')
-  const rafRef = useRef<number | null>(null)
+  const [isDone, setIsDone] = useState(reducedMotion)
+  const rafRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     if (reducedMotion) {
       setDisplayed(text)
+      setIsDone(true)
       return
     }
     let index = 0
@@ -34,7 +37,9 @@ function useTypingEffect(text: string, startDelay: number, reducedMotion: boolea
         index += 1
         setDisplayed(text.slice(0, index))
         if (index < text.length) {
-          rafRef.current = window.setTimeout(tick, TYPING_SPEED_MS)
+          rafRef.current = setTimeout(tick, TYPING_SPEED_MS)
+        } else {
+          setIsDone(true)
         }
       }
       tick()
@@ -46,30 +51,28 @@ function useTypingEffect(text: string, startDelay: number, reducedMotion: boolea
     }
   }, [text, startDelay, reducedMotion])
 
-  return displayed
+  return { displayed, isDone }
 }
 
 export function Hero() {
   const reduced = prefersReducedMotion()
-  const [step, setStep] = useState(() => (reduced ? 4 : 0))
+  const [step, setStep] = useState(() => (reduced ? 3 : 0))
 
   useEffect(() => {
     if (reduced) return
     const t1 = window.setTimeout(() => setStep(1), 40)
     const t2 = window.setTimeout(() => setStep(2), 130)
     const t3 = window.setTimeout(() => setStep(3), 220)
-    const t4 = window.setTimeout(() => setStep(4), 300)
     return () => {
       window.clearTimeout(t1)
       window.clearTimeout(t2)
       window.clearTimeout(t3)
-      window.clearTimeout(t4)
     }
   }, [reduced])
 
-  // Typing starts after the subtitle fades in (step 3 fires at 220 ms, so start at ~280 ms)
-  const typedText = useTypingEffect(TYPED_TEXT, reduced ? 0 : 280, reduced)
-  const showCursor = !reduced && typedText.length < TYPED_TEXT.length
+  // Typing starts after name fades in (step 2 at 130ms → start at ~220ms)
+  const { displayed, isDone } = useTypingEffect(TYPED_TEXT, reduced ? 0 : 220, reduced)
+  const showCursor = !reduced && !isDone
 
   return (
     <section style={{
@@ -97,7 +100,6 @@ export function Hero() {
         fontWeight: 700,
         lineHeight: 1.1,
         ...introLineStyle(step >= 2),
-        // gradient overrides the color property
         background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 60%, #ec4899 100%)',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
@@ -107,36 +109,28 @@ export function Hero() {
       </h1>
 
       <p style={{
-        margin: '0 0 8px',
-        fontSize: '18px',
-        color: 'var(--text-secondary)',
-        lineHeight: 1.7,
-        maxWidth: '540px',
-        minHeight: '1.7em',
-        ...introLineStyle(step >= 3),
-      }}>
-        {typedText}
-        {showCursor && (
-          <span className="hero-cursor" aria-hidden="true">|</span>
-        )}
-      </p>
-
-      <p style={{
         margin: '0 0 32px',
         fontSize: '18px',
         color: 'var(--text-secondary)',
         lineHeight: 1.7,
         maxWidth: '540px',
+        // Reserve height for the full text to prevent layout shift while typing
+        minHeight: 'calc(18px * 1.7 * 4)',
         ...introLineStyle(step >= 3),
       }}>
-        Skilled in <strong>Vue 3, Node.js, TypeScript</strong> and <strong>AWS</strong>.
+        {displayed}
+        {showCursor && (
+          <span className="hero-cursor" aria-hidden="true">|</span>
+        )}
       </p>
 
       <div style={{
         display: 'flex',
         gap: '16px',
         flexWrap: 'wrap',
-        ...introLineStyle(step >= 4),
+        opacity: isDone ? 1 : 0,
+        transform: isDone ? 'translateY(0)' : 'translateY(14px)',
+        transition: 'opacity 0.45s ease, transform 0.45s ease',
       }}>
         <a
           href="https://github.com/AllenLi0110"
