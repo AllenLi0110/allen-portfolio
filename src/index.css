@@ -101,6 +101,25 @@ body.dark {
   }
 }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hero-cursor {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--link);
+  animation: blink 0.9s step-end infinite;
+  font-weight: 300;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cursor {
+    display: none;
+  }
+}
+
 .hero-cta-link {
   font-size: 15px;
   font-weight: 500;

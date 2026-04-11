@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 
 export type { HeroProps } from '../types'
+
+const TYPED_TEXT = 'Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products.'
+const TYPING_SPEED_MS = 28
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -15,11 +18,43 @@ function introLineStyle(visible: boolean): CSSProperties {
   }
 }
 
-export function Hero() {
-  const [step, setStep] = useState(() => (prefersReducedMotion() ? 4 : 0))
+function useTypingEffect(text: string, startDelay: number, reducedMotion: boolean) {
+  const [displayed, setDisplayed] = useState(reducedMotion ? text : '')
+  const rafRef = useRef<number | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    if (prefersReducedMotion()) return
+    if (reducedMotion) {
+      setDisplayed(text)
+      return
+    }
+    let index = 0
+    timeoutRef.current = setTimeout(() => {
+      const tick = () => {
+        index += 1
+        setDisplayed(text.slice(0, index))
+        if (index < text.length) {
+          rafRef.current = window.setTimeout(tick, TYPING_SPEED_MS)
+        }
+      }
+      tick()
+    }, startDelay)
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      if (rafRef.current) clearTimeout(rafRef.current)
+    }
+  }, [text, startDelay, reducedMotion])
+
+  return displayed
+}
+
+export function Hero() {
+  const reduced = prefersReducedMotion()
+  const [step, setStep] = useState(() => (reduced ? 4 : 0))
+
+  useEffect(() => {
+    if (reduced) return
     const t1 = window.setTimeout(() => setStep(1), 40)
     const t2 = window.setTimeout(() => setStep(2), 130)
     const t3 = window.setTimeout(() => setStep(3), 220)
@@ -30,7 +65,11 @@ export function Hero() {
       window.clearTimeout(t3)
       window.clearTimeout(t4)
     }
-  }, [])
+  }, [reduced])
+
+  // Typing starts after the subtitle fades in (step 3 fires at 220 ms, so start at ~280 ms)
+  const typedText = useTypingEffect(TYPED_TEXT, reduced ? 0 : 280, reduced)
+  const showCursor = !reduced && typedText.length < TYPED_TEXT.length
 
   return (
     <section style={{
@@ -51,16 +90,37 @@ export function Hero() {
       }}>
         Hi, I'm
       </p>
+
       <h1 style={{
         margin: '0 0 16px',
         fontSize: 'clamp(40px, 8vw, 64px)',
         fontWeight: 700,
-        color: 'var(--text-primary)',
         lineHeight: 1.1,
         ...introLineStyle(step >= 2),
+        // gradient overrides the color property
+        background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 60%, #ec4899 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
       }}>
         Allen Li
       </h1>
+
+      <p style={{
+        margin: '0 0 8px',
+        fontSize: '18px',
+        color: 'var(--text-secondary)',
+        lineHeight: 1.7,
+        maxWidth: '540px',
+        minHeight: '1.7em',
+        ...introLineStyle(step >= 3),
+      }}>
+        {typedText}
+        {showCursor && (
+          <span className="hero-cursor" aria-hidden="true">|</span>
+        )}
+      </p>
+
       <p style={{
         margin: '0 0 32px',
         fontSize: '18px',
@@ -69,9 +129,9 @@ export function Hero() {
         maxWidth: '540px',
         ...introLineStyle(step >= 3),
       }}>
-        Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products.
         Skilled in <strong>Vue 3, Node.js, TypeScript</strong> and <strong>AWS</strong>.
       </p>
+
       <div style={{
         display: 'flex',
         gap: '16px',
