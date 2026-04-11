@@ -157,37 +157,15 @@ body.dark {
   .page-transition { animation: none; }
 }
 
-/* --- dark mode soft-circle reveal (View Transitions API) --- */
+/* --- dark mode circle reveal (View Transitions API) --- */
 
-/*
- * Use mask-image + radial-gradient instead of clip-path so the expanding
- * circle has a feathered edge (black 42% → transparent 70%) rather than
- * a hard cut.  Only mask-size is animated; mask-position stays fixed at
- * the click coordinates so the circle always grows from the button.
- */
-@keyframes reveal-soft-circle {
-  from {
-    mask-size: 0% 0%;
-    -webkit-mask-size: 0% 0%;
-  }
-  to {
-    mask-size: 350% 350%;
-    -webkit-mask-size: 350% 350%;
-  }
+@keyframes reveal-circle {
+  from { clip-path: circle(0% at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(150% at var(--vt-x, 50%) var(--vt-y, 50%)); }
 }
 
 ::view-transition-new(root) {
-  /* Default position: top-right corner (where the theme-toggle lives).
-     Overridden at runtime via --vt-x / --vt-y set in Header.tsx.       */
-  mask-image: radial-gradient(circle, black 42%, transparent 70%);
-  -webkit-mask-image: radial-gradient(circle, black 42%, transparent 70%);
-  mask-position: var(--vt-x, 100%) var(--vt-y, 0%);
-  -webkit-mask-position: var(--vt-x, 100%) var(--vt-y, 0%);
-  mask-size: 0% 0%;
-  -webkit-mask-size: 0% 0%;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  animation: reveal-soft-circle 0.6s ease-out forwards;
+  animation: reveal-circle 0.45s ease-out;
 }
 
 ::view-transition-old(root) {
