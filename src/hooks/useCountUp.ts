@@ -13,14 +13,12 @@ export function useCountUp(target: number, duration: number, trigger: boolean): 
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  const [count, setCount] = useState(reduced || trigger ? target : 0)
+  // If reduced motion is active, start at the final value immediately
+  const [count, setCount] = useState<number>(() => (reduced ? target : 0))
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (!trigger || reduced) {
-      setCount(target)
-      return
-    }
+    if (!trigger || reduced) return
     let startTime: number | null = null
 
     const step = (timestamp: number) => {

@@ -1,7 +1,59 @@
-import { useEffect, useRef, useState } from 'react'
-import type { CSSProperties } from 'react'
+import { useRef, useEffect, useState } from 'react'
+import type { CSSProperties, MouseEvent } from 'react'
 
 export type { HeroProps } from '../types'
+
+interface MagneticLinkProps {
+  href: string
+  target?: string
+  rel?: string
+  className?: string
+  style?: CSSProperties
+  children: React.ReactNode
+}
+
+function MagneticLink({ href, target, rel, className, style, children }: MagneticLinkProps) {
+  const ref = useRef<HTMLAnchorElement>(null)
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const reduced = prefersReducedMotion()
+
+  const handleMouseMove = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (reduced || !ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const cx = rect.left + rect.width / 2
+    const cy = rect.top + rect.height / 2
+    setOffset({
+      x: (e.clientX - cx) * 0.35,
+      y: (e.clientY - cy) * 0.35,
+    })
+  }
+
+  const handleMouseLeave = () => setOffset({ x: 0, y: 0 })
+
+  const isResting = offset.x === 0 && offset.y === 0
+
+  return (
+    <a
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      className={className}
+      style={{
+        ...style,
+        display: 'inline-block',
+        transform: `translate(${offset.x}px, ${offset.y}px)`,
+        transition: isResting
+          ? 'transform 0.35s ease, color 0.2s ease, opacity 0.2s ease'
+          : 'transform 0.1s linear',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+    </a>
+  )
+}
 
 const TYPED_TEXT =
   'Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products. Skilled in Vue 3, Node.js, TypeScript and AWS.'
@@ -155,40 +207,18 @@ export function Hero() {
         flexWrap: 'wrap',
         ...elementStyle(isDone, parallaxY, 0.04, hasScrolled),
       }}>
-        <a
-          href="https://github.com/AllenLi0110"
-          target="_blank"
-          rel="noreferrer"
-          className="hero-cta-link"
-          style={{ color: 'var(--text-primary)' }}
-        >
+        <MagneticLink href="https://github.com/AllenLi0110" target="_blank" rel="noreferrer" className="hero-cta-link" style={{ color: 'var(--text-primary)' }}>
           GitHub ↗
-        </a>
-        <a
-          href="https://www.linkedin.com/in/allen-li-service"
-          target="_blank"
-          rel="noreferrer"
-          className="hero-cta-link"
-          style={{ color: 'var(--link)' }}
-        >
+        </MagneticLink>
+        <MagneticLink href="https://www.linkedin.com/in/allen-li-service" target="_blank" rel="noreferrer" className="hero-cta-link" style={{ color: 'var(--link)' }}>
           LinkedIn ↗
-        </a>
-        <a
-          href="https://www.allenliservice.site"
-          target="_blank"
-          rel="noreferrer"
-          className="hero-cta-link"
-          style={{ color: 'var(--text-secondary)' }}
-        >
+        </MagneticLink>
+        <MagneticLink href="https://www.allenliservice.site" target="_blank" rel="noreferrer" className="hero-cta-link" style={{ color: 'var(--text-secondary)' }}>
           Blog ↗
-        </a>
-        <a
-          href="mailto:allen.li.service@gmail.com"
-          className="hero-cta-link"
-          style={{ color: 'var(--text-muted)' }}
-        >
+        </MagneticLink>
+        <MagneticLink href="mailto:allen.li.service@gmail.com" className="hero-cta-link" style={{ color: 'var(--text-muted)' }}>
           Email ↗
-        </a>
+        </MagneticLink>
       </div>
     </section>
   )
