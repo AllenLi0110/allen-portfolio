@@ -4,6 +4,7 @@ import { ErrorBoundary } from './ErrorBoundary'
 import { Footer } from './Footer'
 import { Header } from './Header'
 import { ScrollProgress } from './ScrollProgress'
+import { SectionDots } from './SectionDots'
 
 export type { LayoutProps } from '../types'
 
@@ -19,6 +20,7 @@ export function Layout() {
       </main>
       <Footer />
       <BackToTop />
+      <SectionDots />
     </>
   )
 }
