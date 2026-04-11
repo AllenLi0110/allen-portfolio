@@ -69,8 +69,8 @@ export function Hero() {
         maxWidth: '540px',
         ...introLineStyle(step >= 3),
       }}>
-        Software Engineer，熟悉 <strong>Vue 3、Node.js、TypeScript、AWS</strong>。<br />
-        具備 IoT SaaS 平台開發與 AI 工具整合（LangChain、RAG）經驗。
+        Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products.
+        Skilled in <strong>Vue 3, Node.js, TypeScript</strong> and <strong>AWS</strong>.
       </p>
       <div style={{
         display: 'flex',

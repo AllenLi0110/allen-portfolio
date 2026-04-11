@@ -31,10 +31,13 @@ export function AboutPage() {
           color: 'var(--text-secondary)',
         }}
       >
-        嗨，我是 Allen。我主要寫網頁，平常使用 <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Vue</strong>、
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}> TypeScript</strong>、
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}> Node</strong> 較多；在 IoT
-        SaaS 待過一陣子，也接 WordPress、PHP 的網站開發。同時我在 Buildmoat 擔任課程助理，偶爾在社群裡和學生刷題、回答問題。
+        Hi, I'm Allen. I primarily build web applications with{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Vue</strong>,{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>TypeScript</strong>, and{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Node.js</strong>. I spent
+        time in an IoT SaaS company and also do WordPress and PHP freelance work. I currently serve
+        as a teaching assistant at Buildmoat, helping students with coding problems and questions in
+        the community.
       </p>
       <p
         style={{
@@ -44,8 +47,11 @@ export function AboutPage() {
           color: 'var(--text-secondary)',
         }}
       >
-        這個站是用 <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>React</strong> 實做的，
-        主要練習路徑管理、Lazy Loading、Error Boundary 等前端技術，以及測試與 CI/CD，透過實作讓我快速了解不同語言的實際應用。
+        This portfolio is built with{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>React</strong> and
+        TypeScript — a deliberate choice to step outside my primary Vue stack and compare developer
+        experience firsthand. It covers routing, lazy loading, Error Boundary, Vitest component
+        tests, and a full CI/CD pipeline on GitHub Actions.
       </p>
       <p
         style={{
@@ -55,7 +61,8 @@ export function AboutPage() {
           color: 'var(--text-secondary)',
         }}
       >
-        LeetCode 和 JS 筆記會丟在部落格；想聊聊工作、合作或單純打聲招呼，用下面連結找我即可。
+        My LeetCode solutions and JS notes live on my blog. If you'd like to talk about work,
+        collaboration, or just say hi — reach out via the links below.
       </p>
 
       <div
@@ -103,11 +110,11 @@ export function AboutPage() {
       </div>
 
       <p style={{ margin: 0, fontSize: '16px', color: 'var(--text-muted)' }}>
-        想看專案細節，請回{' '}
+        See project details on the{' '}
         <Link to="/" style={{ color: 'var(--link)', fontWeight: 600, textDecoration: 'none' }}>
           Home
-        </Link>
-        。
+        </Link>{' '}
+        page.
       </p>
     </section>
   )
