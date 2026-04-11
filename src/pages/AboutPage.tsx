@@ -31,13 +31,15 @@ export function AboutPage() {
           color: 'var(--text-secondary)',
         }}
       >
-        Hi, I'm Allen. I primarily build web applications with{' '}
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Vue</strong>,{' '}
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>TypeScript</strong>, and{' '}
-        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Node.js</strong>. I spent
-        time in an IoT SaaS company and also do WordPress and PHP freelance work. I currently serve
-        as a teaching assistant at Buildmoat, helping students with coding problems and questions in
-        the community.
+        Hi, I'm Allen — a full-stack software engineer with 2+ years of experience. Most of that
+        time was spent at an IoT SaaS startup, where I built device management pipelines, designed
+        API layers, and maintained a layered test suite across{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Vue 3</strong>,{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>Node.js</strong>, and{' '}
+        <strong style={{ color: 'var(--text-primary)', fontWeight: 600 }}>AWS</strong>. I also take
+        freelance work in WordPress and PHP, and currently serve as a teaching assistant at
+        Buildmoat — helping students debug, design systems, and ship things in a ~500-member
+        community.
       </p>
       <p
         style={{
