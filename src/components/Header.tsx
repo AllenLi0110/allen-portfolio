@@ -1,17 +1,29 @@
-import { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { useActiveSection } from '../hooks/useActiveSection'
 
 export type { HeaderProps } from '../types'
+
+const HOME_SECTIONS = ['hero', 'experience', 'projects'] as const
+
+const SECTION_LABELS: Record<string, string> = {
+  hero: 'Home',
+  experience: 'Experience',
+  projects: 'Projects',
+}
 
 export function Header() {
   const { isDark, toggle } = useTheme()
   const [scrolled, setScrolled] = useState(false)
+  const { pathname } = useLocation()
+  const isHome = pathname === '/'
+
+  const sectionIds = useMemo(() => (isHome ? HOME_SECTIONS : []), [isHome])
+  const activeSection = useActiveSection(sectionIds)
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 14)
-    }
+    const onScroll = () => setScrolled(window.scrollY > 14)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -38,15 +50,32 @@ export function Header() {
         aria-label="Main"
         style={{ display: 'flex', gap: '20px', pointerEvents: 'auto' }}
       >
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) =>
-            `header-nav-link${isActive ? ' header-nav-link--active' : ''}`
-          }
-        >
-          Home
-        </NavLink>
+        {isHome ? (
+          // On the home page: section-based anchor links with scroll-driven active state
+          HOME_SECTIONS.map((id) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className={`header-nav-link${activeSection === id ? ' header-nav-link--active' : ''}`}
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+              }}
+            >
+              {SECTION_LABELS[id]}
+            </a>
+          ))
+        ) : (
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `header-nav-link${isActive ? ' header-nav-link--active' : ''}`
+            }
+          >
+            Home
+          </NavLink>
+        )}
         <NavLink
           to="/about"
           className={({ isActive }) =>

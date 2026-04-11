@@ -105,7 +105,7 @@ export function ExperienceSection() {
   const { ref, visible } = useScrollReveal()
 
   return (
-    <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
+    <section id="experience" style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
       <div
         ref={ref}
         style={{

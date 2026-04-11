@@ -63,7 +63,7 @@ export function HomePage() {
     <>
       <Hero />
       <ExperienceSection />
-      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
+      <section id="projects" style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
         <ProjectsIntro
           techOptions={techOptions}
           selectedTech={selectedTech}

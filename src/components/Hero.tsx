@@ -71,7 +71,7 @@ export function Hero() {
   const showCursor = !reduced && !isDone
 
   return (
-    <section style={{
+    <section id="hero" style={{
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',

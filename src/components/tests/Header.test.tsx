@@ -5,10 +5,24 @@ import { renderWithProviders } from '../../test/test-utils'
 import { Header } from '../Header'
 
 describe('Header', () => {
-  it('renders nav links and theme toggle', () => {
-    renderWithProviders(<Header />)
-    expect(screen.getByRole('link', { name: /^Home$/ })).toHaveAttribute('href', '/')
+  it('renders section anchor links and About on home page', () => {
+    renderWithProviders(<Header />, { route: '/' })
+    expect(screen.getByRole('link', { name: /^Home$/ })).toHaveAttribute('href', '#hero')
+    expect(screen.getByRole('link', { name: /^Experience$/ })).toHaveAttribute('href', '#experience')
+    expect(screen.getByRole('link', { name: /^Projects$/ })).toHaveAttribute('href', '#projects')
     expect(screen.getByRole('link', { name: /^About$/ })).toHaveAttribute('href', '/about')
+  })
+
+  it('renders Home route link and About on non-home pages', () => {
+    renderWithProviders(<Header />, { route: '/about' })
+    expect(screen.getByRole('link', { name: /^Home$/ })).toHaveAttribute('href', '/')
+    expect(screen.queryByRole('link', { name: /^Experience$/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /^Projects$/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /^About$/ })).toHaveAttribute('href', '/about')
+  })
+
+  it('renders theme toggle button', () => {
+    renderWithProviders(<Header />)
     expect(screen.getByRole('button', { name: /Toggle dark mode/i })).toHaveTextContent(/Dark|Light/)
   })
 
