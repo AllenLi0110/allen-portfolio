@@ -36,6 +36,9 @@ function ExperienceCard({ item, index }: { item: ExperienceItem; index: number }
               flex: 1,
               background: 'var(--surface-border)',
               marginTop: '8px',
+              transformOrigin: 'top center',
+              transform: visible ? 'scaleY(1)' : 'scaleY(0)',
+              transition: `transform 0.5s ease ${delay}`,
             }}
           />
         )}
