@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import { Hero } from '../components/Hero'
+import { ExperienceSection } from '../components/ExperienceSection'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectTechFilter } from '../components/ProjectTechFilter'
 import { projects } from '../data/projects'
@@ -61,7 +62,8 @@ export function HomePage() {
   return (
     <>
       <Hero />
-      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 24px' }}>
+      <ExperienceSection />
+      <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px 80px' }}>
         <ProjectsIntro
           techOptions={techOptions}
           selectedTech={selectedTech}
