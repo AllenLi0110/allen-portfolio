@@ -13,4 +13,6 @@ export interface Project {
   readonly githubUrl?: string
   readonly highlights: readonly string[]
   readonly category?: string
+  /** Optional preview image URL shown at the top of the card */
+  readonly imageUrl?: string
 }
