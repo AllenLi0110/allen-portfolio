@@ -18,7 +18,7 @@ function ProjectsIntro({
   selectedTech: string | null
   onSelectTech: (tech: string | null) => void
 }) {
-  const { ref, visible } = useScrollReveal()
+  const { ref, visible } = useScrollReveal({ revealOnce: false })
   const parallaxRef = useElementParallax(0.06)
   return (
     <div ref={parallaxRef}>

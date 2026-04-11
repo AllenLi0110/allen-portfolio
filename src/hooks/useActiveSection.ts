@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { HEADER_HEIGHT_PX } from '../constants/layout'
 
 /**
  * Returns the id of the section currently closest to the top of the viewport.
@@ -12,7 +13,9 @@ export function useActiveSection(sectionIds: readonly string[]): string {
     if (sectionIds.length === 0) return
 
     const getActive = (): string => {
-      const trigger = window.scrollY + window.innerHeight * 0.35
+      const h = HEADER_HEIGHT_PX
+      const view = Math.max(0, window.innerHeight - h)
+      const trigger = window.scrollY + h + view * 0.35
       let result = sectionIds[0] ?? ''
       for (const id of sectionIds) {
         const el = document.getElementById(id)

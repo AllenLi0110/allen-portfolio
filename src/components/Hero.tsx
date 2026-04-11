@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useLayoutEffect, useState } from 'react'
 import type { CSSProperties, MouseEvent } from 'react'
 
 export type { HeroProps } from '../types'
@@ -58,6 +58,16 @@ function MagneticLink({ href, target, rel, className, style, children }: Magneti
 const TYPED_TEXT =
   'Software Engineer with 2+ years building IoT SaaS platforms and AI-integrated products. Skilled in Vue 3, Node.js, TypeScript and AWS.'
 const TYPING_SPEED_MS = 30
+
+/** Matches CSS var name; pixel height tracks the real viewport (avoids vh/dvh vs innerHeight gaps). */
+const HERO_VIEWPORT_HEIGHT_VAR = '--portfolio-hero-viewport-px'
+
+function readViewportHeightPx(): number {
+  const inner = window.innerHeight
+  const vv = window.visualViewport?.height
+  const px = Math.ceil(Math.max(inner, vv ?? 0))
+  return Math.max(320, px)
+}
 
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -130,6 +140,25 @@ export function Hero() {
     }
   }, [reduced])
 
+  useLayoutEffect(() => {
+    const sync = () => {
+      document.documentElement.style.setProperty(
+        HERO_VIEWPORT_HEIGHT_VAR,
+        `${readViewportHeightPx()}px`,
+      )
+    }
+    sync()
+    window.addEventListener('resize', sync, { passive: true })
+    window.visualViewport?.addEventListener('resize', sync, { passive: true })
+    window.addEventListener('orientationchange', sync, { passive: true })
+    return () => {
+      window.removeEventListener('resize', sync)
+      window.visualViewport?.removeEventListener('resize', sync)
+      window.removeEventListener('orientationchange', sync)
+      document.documentElement.style.removeProperty(HERO_VIEWPORT_HEIGHT_VAR)
+    }
+  }, [])
+
   useEffect(() => {
     if (reduced) return
     let rafId: number
@@ -152,16 +181,19 @@ export function Hero() {
   const hasScrolled = parallaxY > 0
 
   return (
-    <section id="hero" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '0 24px',
-      maxWidth: '680px',
-      margin: '0 auto',
-      overflow: 'hidden',
-    }}>
+    <section
+      id="hero"
+      style={{
+        minHeight: `var(${HERO_VIEWPORT_HEIGHT_VAR}, 100vh)`,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: 'var(--header-height) 24px 0',
+        overflow: 'hidden',
+      }}
+    >
+      <div style={{ width: '100%', maxWidth: '680px', margin: '0 auto' }}>
       <p style={{
         margin: '0 0 12px',
         fontSize: '14px',
@@ -219,6 +251,7 @@ export function Hero() {
         <MagneticLink href="mailto:allen.li.service@gmail.com" className="hero-cta-link" style={{ color: 'var(--text-muted)' }}>
           Email ↗
         </MagneticLink>
+      </div>
       </div>
     </section>
   )
